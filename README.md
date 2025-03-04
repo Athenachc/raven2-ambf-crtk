@@ -1,6 +1,6 @@
 # **RAVEN-II AMBF CRTK Framework**  
 
-A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) with the **RAVEN-II** surgical robot, supporting the **CRTK API** to simulate real RAVEN-II behavior with **1000Hz control execution** and publishing the **RAVEN State** topic.
+A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) **RAVEN-II** surgical robot with **CRTK API** support to simulate real RAVEN-II behavior with **1000Hz control execution** and publishing the **RAVEN State** topic.
 
 > ⚠ **Note:** Currently, this framework only supports the **left arm** of RAVEN-II (**GOLD arm**).
 
