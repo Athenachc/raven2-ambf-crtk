@@ -170,6 +170,7 @@ class ambf_raven_state:
         msg = raven_2.msg.raven_state()
         msg.hdr.seq = self.pub_count
         msg.hdr.stamp = rospy.Time.now()
+        msg.hdr.frame_id = "base_link"
         msg.pos[0:3] = self.pos
         msg.ori[0:9] = self.ori
         msg.pos_d[0:3] = self.pos_d
