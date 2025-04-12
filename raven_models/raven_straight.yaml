@@ -956,7 +956,7 @@ JOINT base_link_L-link1_L:
     P: 600.0
     I: 0.0
     D: 0.06
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -989,7 +989,7 @@ JOINT link1_L-link2_L:
     P: 900.0
     I: 0.0
     D: 0.09
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1023,7 +1023,7 @@ JOINT link2_L-link3_L:
     P: 350.0
     I: 0.0
     D: 0.035
-  controller output type: FORCE
+  controller output type: POSITION
   type: prismatic
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1057,7 +1057,7 @@ JOINT link3_L-instrument_shaft_L:
     P: 0.05
     I: 0.0
     D: 0.0003
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1091,7 +1091,7 @@ JOINT instrument_shaft_L-wrist_L:
     P: 0.05
     I: 0.0
     D: 3.0e-05
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1125,7 +1125,7 @@ JOINT wrist_L-grasper1_L:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1159,7 +1159,7 @@ JOINT wrist_L-grasper2_L:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1220,7 +1220,7 @@ JOINT base_link_R-link1_R:
     P: 600.0
     I: 0.0
     D: 0.06
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1253,7 +1253,7 @@ JOINT link1_R-link2_R:
     P: 900.0
     I: 0.0
     D: 0.09
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1287,7 +1287,7 @@ JOINT link2_R-link3_R:
     P: 350.0
     I: 0.0
     D: 0.035
-  controller output type: FORCE
+  controller output type: POSITION
   type: prismatic
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1318,7 +1318,7 @@ JOINT link3_R-instrument_shaft_R:
     P: 0.05
     I: 0.0
     D: 0.0003
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1352,7 +1352,7 @@ JOINT instrument_shaft_R-wrist_R:
     P: 0.05
     I: 0.0
     D: 3.0e-05
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1386,7 +1386,7 @@ JOINT wrist_R-grasper1_R:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1420,7 +1420,7 @@ JOINT wrist_R-grasper2_R:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  controller output type: FORCE
+  controller output type: POSITION
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
