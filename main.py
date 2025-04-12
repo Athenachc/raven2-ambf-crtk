@@ -24,8 +24,8 @@ class main:
         self.ambf_raven_state = ambf_raven_state.ambf_raven_state(self.robot_state)
         self.raven_toolkits = raven_toolkits.raven_toolkits(self.arm)
         
+        rospy.loginfo("CRTK to AMBF Adapter is connecting...")
         time.sleep(1)
-        
         rospy.loginfo("CRTK to AMBF Adapter initialized and connected to AMBF.")
         
         return None
