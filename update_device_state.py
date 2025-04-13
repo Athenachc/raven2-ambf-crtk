@@ -50,28 +50,30 @@ class update_device_state:
         out = 0
         if self.robot_state.motion_state == "MOVING":
             self.robot_state.motion_state = "IDLE"
+            
+            if(self.check_joint_limits()):
 
-            for i in range(7):
-                limit = self.max_meters_per_ms if i == 2 else self.max_radian_per_ms
+                for i in range(7):
+                    limit = self.max_meters_per_ms if i == 2 else self.max_radian_per_ms
 
-                if abs(self.robot_state.joint_delta[i]) <= limit:
-                    target = self.robot_state.joint_positions[i] + self.robot_state.joint_delta[i]
-                    self.robot_state.joint_targets[i] = target
-                    self.arm.set_joint_pos(i, target)
-                    out = 1
-                    
-                else:
-                    sign = 1 if self.robot_state.joint_delta[i] > 0 else -1
-                    target = self.robot_state.joint_positions[i] + sign * limit
-                    self.robot_state.joint_targets[i] = target
-                    self.arm.set_joint_pos(i, target)
+                    if abs(self.robot_state.joint_delta[i]) <= limit:
+                        target = self.robot_state.joint_positions[i] + self.robot_state.joint_delta[i]
+                        self.robot_state.joint_targets[i] = target
+                        self.arm.set_joint_pos(i, target)
+                        out = 1
+                        
+                    else:
+                        sign = 1 if self.robot_state.joint_delta[i] > 0 else -1
+                        target = self.robot_state.joint_positions[i] + sign * limit
+                        self.robot_state.joint_targets[i] = target
+                        self.arm.set_joint_pos(i, target)
 
-                    self.js_limit_count += 1
-                    out = 1
+                        self.js_limit_count += 1
+                        out = 1
 
-                    if self.js_limit_count % 500 == 0:
-                        rospy.logerr("THAT WAS TOO FAR! joint {} jpos_d - {}, in {} ".format(i, self.robot_state.joint_delta[i] + self.robot_state.joint_positions[i], self.robot_state.joint_delta[i]))
-                        out = -1
+                        if self.js_limit_count % 500 == 0:
+                            rospy.logerr("THAT WAS TOO FAR! joint {} jpos_d - {}, in {} ".format(i, self.robot_state.joint_delta[i] + self.robot_state.joint_positions[i], self.robot_state.joint_delta[i]))
+                            out = -1
         return out
     
     
@@ -89,7 +91,7 @@ class update_device_state:
             jpl = ik.inv_kinematics(0, target_tm, 0, ard)
             limited = jpl[1]
             if limited:
-                print("Desired cartesian position is out of bounds for Raven2. Will move to max pos.")
+                rospy.logerr("Desired cartesian position is out of bounds for Raven2. Will move to max pos.")
             
             for i in range(7):
                 self.arm.set_joint_pos(i, jpl[0][i])
@@ -97,4 +99,21 @@ class update_device_state:
             out = 1
 
         return out
+    
+    def check_joint_limits(self):
+        joint_positions = np.array(self.robot_state.joint_positions, dtype='float')
+        joint_deltas = np.array(self.robot_state.joint_delta, dtype='float')
+        min_limits = ard.RAVEN_JOINT_LIMITS[0]
+        max_limits = ard.RAVEN_JOINT_LIMITS[1]
+
+        future_positions = joint_positions + joint_deltas
+        within_limits = True
+
+        for i, (future_pos, min_val, max_val) in enumerate(zip(future_positions, min_limits, max_limits)):
+            if future_pos < min_val or future_pos > max_val:
+                rospy.logerr(f"Joint {i} will exceed limits: {future_pos:.3f} (min: {min_val:.3f}, max: {max_val:.3f})")
+                within_limits = False
+
+        return within_limits
+        
     
