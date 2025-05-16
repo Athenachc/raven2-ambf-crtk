@@ -41,6 +41,7 @@ high resolution path: ./high_res/
 low resolution path: ./low_res/
 ignore inter-collision: true
 namespace: /ambf/env/raven_2/
+gravity: {x: 0., y: 0., z: 0.}
 BODY 0_link:
   name: 0_link
   mesh: ''
@@ -1057,7 +1058,7 @@ JOINT link3_L-instrument_shaft_L:
     P: 0.05
     I: 0.0
     D: 0.0003
-  controller output type: POSITION
+  controller output type: FORCE
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1091,7 +1092,7 @@ JOINT instrument_shaft_L-wrist_L:
     P: 0.05
     I: 0.0
     D: 3.0e-05
-  controller output type: POSITION
+  controller output type: FORCE
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1125,7 +1126,7 @@ JOINT wrist_L-grasper1_L:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  controller output type: POSITION
+  controller output type: FORCE
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
@@ -1159,7 +1160,7 @@ JOINT wrist_L-grasper2_L:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  controller output type: POSITION
+  controller output type: FORCE
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
