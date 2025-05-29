@@ -3,6 +3,7 @@ import ambf_raven_controller
 import rospy
 import numpy as np
 import tf.transformations as tft
+import csv
 
 # filedescriptors = termios.tcgetattr(sys.stdin)
 # tty.setcbreak(sys.stdin)
@@ -32,15 +33,3 @@ for i in range(30):
     # cmd[7] = np.deg2rad(velocity_joint_7)
     print(cmd)
     controller.pub_servo_jr_command(cmd)
-
-
-# pos = np.zeros((3))
-# rot = tft.quaternion_from_euler(0, 0, 0.01)
-# controller.pub_servo_cr_command(pos, rot)
-
-# # for i in range(10):
-# #     print("Moving Joint 2 --")
-# #     cmd = np.zeros((16))
-# #     #print(cmd)
-# #     cmd[2] = -np.deg2rad(velocity_joint_2)
-# #     controller.pub_servo_cr_command(cmd)
