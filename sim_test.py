@@ -41,15 +41,16 @@ joint_pos_1 = df.iloc[:,13].values
 joint_pos_2 = df.iloc[:,14].values
 joint_pos_3 = df.iloc[:,15].values
 
+t = df.iloc[:,0] # Recorded time
 
-fig = plt.figure()
-ax = fig.add_subplot(111,projection='3d')
-ax.plot(joint_pos_1, joint_pos_2, joint_pos_3)
-plt.title('Test')
-ax.set_xlabel('Joint Position 1')
-ax.set_ylabel('Joint Position 2')
-ax.set_zlabel('Joint Position 3')
-plt.show()
+# fig = plt.figure()
+# ax = fig.add_subplot(111,projection='3d')
+# ax.plot(joint_pos_1, joint_pos_2, joint_pos_3)
+# plt.title('Test')
+# ax.set_xlabel('Joint Position 1')
+# ax.set_ylabel('Joint Position 2')
+# ax.set_zlabel('Joint Position 3')
+# plt.show()
 
 cmds = np.zeros((len(joint_vel_1),16))
 cmds[:,1] = np.deg2rad(joint_vel_1)
@@ -60,12 +61,16 @@ cmds[:,5] = np.deg2rad(joint_vel_5)
 cmds[:,6] = np.deg2rad(joint_vel_6)
 cmds[:,7] = np.deg2rad(joint_vel_7)
 
-datas = np.zeros(len(joint_vel_1),8)
+datas = np.zeros((len(joint_vel_1),8))
+datas[:,0] = t
+datas[:,1] = joint_pos_desired_1
+datas[:,2] = joint_pos_desired_2
+datas[:,3] = joint_pos_desired_3
 
 # for cmd in cmds:
 #     # print(cmd[1])
 #     controller.pub_servo_jr_command(cmd) 
 
 for data in datas:
-    print(data[1])
-    # controller.pub_joint_position_trajectory(data)
+    print(data[0])
+    controller.pub_joint_position_trajectory(data)

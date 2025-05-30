@@ -53,35 +53,29 @@ class ambf_raven_controller:
 
 def pub_joint_position_trajectory(self, trajectory_data):
     """
-    Publishes joint positions from a dataset with timing information.
-
-    Args:
-        trajectory_data (np.ndarray): Nx8 array with time and 7 joint positions.
-                                      Column 0 is time (in seconds),
-                                      Columns 1-7 are joint positions.
+        Publishes joint positions from a dataset with timing information.
+        trajectory_data: np.ndarray of shape (N, 8), where column 0 is time,
+                         columns 1-7 are joint positions.
     """
-    rate = rospy.Rate(self.max_rate_move)
+        # Make time relative to first timestamp
+    trajectory_data[:, 0] -= trajectory_data[0, 0]
+
+    start_time = time.time()
 
     for i in range(len(trajectory_data)):
         row = trajectory_data[i]
-        timestamp = row[0]
+        t_target = row[0]
         joint_positions = row[1:]
 
-        # Prepare JointState message
+        # Wait until target time
+        while time.time() - start_time < t_target:
+            time.sleep(0.001)
+
+        # Publish
         msg = sensor_msgs.msg.JointState()
         msg.header.stamp = rospy.Time.now()
         msg.position = joint_positions.tolist()
 
-        # Publish joint positions
         self.__publisher_servo_jr.publish(msg)
-
-        # Sleep to maintain timing from dataset
-        if i < len(trajectory_data) - 1:
-            next_timestamp = trajectory_data[i + 1][0]
-            sleep_duration = next_timestamp - timestamp
-            if sleep_duration > 0:
-                time.sleep(sleep_duration)
-            else:
-                rate.sleep()  # fall back if timestamps aren't increasing
 
     return 1
