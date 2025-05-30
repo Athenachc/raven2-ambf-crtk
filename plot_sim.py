@@ -26,7 +26,7 @@ controller = ambf_raven_controller.ambf_raven_controller()
 
 # Import data from dataset
 file_location = '/home/athena/Downloads/doi_10_5061_dryad_tqjq2bw84__v20241114/record_1_different_directions'
-file_name = 'data_record_yz_03.csv'
+file_name = 'data_record_x_03.csv'
 
 df = pd.read_csv(file_location+'/'+file_name) # Load CSV file
 
