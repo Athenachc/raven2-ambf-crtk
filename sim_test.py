@@ -1,5 +1,5 @@
 import tty, sys, termios
-import ambf_raven_controller_new
+import ambf_raven_controller
 import rospy
 import numpy as np
 import tf.transformations as tft
@@ -12,7 +12,7 @@ from mpl_toolkits import mplot3d
 
 rospy.init_node('raven_keyboard_controller', anonymous=True)
 
-controller = ambf_raven_controller_new.ambf_raven_controller()
+controller = ambf_raven_controller.ambf_raven_controller()
 
 # Import data from dataset
 file_location = '/home/athena/Downloads/doi_10_5061_dryad_tqjq2bw84__v20241114/record_1_different_directions'
@@ -28,24 +28,56 @@ joint_vel_4 = df.iloc[:,165]
 joint_vel_5 = df.iloc[:,166]
 joint_vel_6 = df.iloc[:,167]
 joint_vel_7 = df.iloc[:,168]
-#print(joint_vel_1)
 
-# Joint position desired
-joint_pos_desired_1 = df.iloc[:,194]
-joint_pos_desired_2 = df.iloc[:,195]
-joint_pos_desired_3 = df.iloc[:,196]
-# # print(N1, N2, N3)
+# Ground truth joint position (Columns B,C,D)
+joint_pos_1_gt = df.iloc[:,1] # Unit: rad
+joint_pos_2_gt = df.iloc[:,2] # Unit: rad
+joint_pos_3_gt = df.iloc[:,3] # Unit: m
 
-# Joint position
-joint_pos_1 = df.iloc[:,13].values
-joint_pos_2 = df.iloc[:,14].values
-joint_pos_3 = df.iloc[:,15].values
+# Joint position (Columns N,O,P) 
+joint_pos_1 = df.iloc[:,13] # Unit: deg
+joint_pos_2 = df.iloc[:,14] # Unit: deg
+joint_pos_3 = df.iloc[:,15] # Unit: m
+joint_pos_1_plot = df.iloc[:,13].values 
+joint_pos_2_plot = df.iloc[:,14].values 
+joint_pos_3_plot = df.iloc[:,15].values 
 
 t = df.iloc[:,0] # Recorded time
 
+# Calculate velocities of joints 1-3 (deg/s; deg/s; m/s)
+print("Time stamp 1: " + str(t[0])+ " s")
+print("Joint 1: " + str(joint_pos_1[0])+ " deg")
+print("Joint 2: " + str(joint_pos_2[0])+ " deg")
+print("Joint 3: " + str(joint_pos_3[0])+ " m")
+
+def cal_vel(joint_pos, time):
+    init_joint_pos = 0
+    init_t = 0
+    velocity = []
+    for i in range(len(time)):
+        cur_t = time[i]
+        if cur_t-init_t == 0:
+            print(i)
+            print("current time: "+str(cur_t))
+            print("initial time: "+str(init_t))
+        vel = (joint_pos[i]-init_joint_pos)/(cur_t-init_t)
+        # print("current time: "+str(cur_t))
+        # print("initial time: "+str(init_t))
+        velocity.append(vel)
+        init_joint_pos = joint_pos[i]
+        init_t =time[i]
+        # print("vel: "+ str(velocity))
+        # print("init_joint: "+str(init_joint_pos)+ " | init_t: "+str(init_t))
+    return velocity
+
+joint_vel_1 = cal_vel(joint_pos_1, t)
+joint_vel_2 = cal_vel(joint_pos_2, t)
+joint_vel_3 = cal_vel(joint_pos_3, t)
+
+
 # fig = plt.figure()
 # ax = fig.add_subplot(111,projection='3d')
-# ax.plot(joint_pos_1, joint_pos_2, joint_pos_3)
+# ax.plot(joint_pos_1_plot, joint_pos_2_plot, joint_pos_3_plot)
 # plt.title('Test')
 # ax.set_xlabel('Joint Position 1')
 # ax.set_ylabel('Joint Position 2')
@@ -53,24 +85,9 @@ t = df.iloc[:,0] # Recorded time
 # plt.show()
 
 cmds = np.zeros((len(joint_vel_1),16))
-cmds[:,1] = np.deg2rad(joint_vel_1)
-cmds[:,2] = np.deg2rad(joint_vel_2)
-cmds[:,3] = joint_vel_3
-cmds[:,4] = np.deg2rad(joint_vel_4)
-cmds[:,5] = np.deg2rad(joint_vel_5)
-cmds[:,6] = np.deg2rad(joint_vel_6)
-cmds[:,7] = np.deg2rad(joint_vel_7)
+cmds[:,1] = np.deg2rad(joint_vel_1) # rad
+cmds[:,2] = np.deg2rad(joint_vel_2) # rad
+cmds[:,3] = joint_vel_3 # m
 
-datas = np.zeros((len(joint_vel_1),8))
-datas[:,0] = t
-datas[:,1] = joint_pos_desired_1
-datas[:,2] = joint_pos_desired_2
-datas[:,3] = joint_pos_desired_3
-
-# for cmd in cmds:
-#     # print(cmd[1])
-#     controller.pub_servo_jr_command(cmd) 
-
-for data in datas:
-    print(data[0])
-    controller.pub_joint_position_trajectory(data)
+for cmd in cmds:
+    controller.pub_servo_jr_command(cmd) 

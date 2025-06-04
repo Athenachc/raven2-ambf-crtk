@@ -32,6 +32,7 @@ class main:
         
         
     def run(self):
+        print("Reached Home position")
         rate = rospy.Rate(1000)
         while not rospy.is_shutdown():
             
@@ -50,7 +51,7 @@ class main:
     
     def home(self):
         self.raven_toolkits.set_home()
-        print("Set Home")
+        print("Setting Home")
         return None
         
 
