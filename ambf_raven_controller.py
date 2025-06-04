@@ -7,7 +7,8 @@ class ambf_raven_controller:
     def __init__(self):
         self.__init_pub_sub()
         
-        self.max_rate_move = 20
+        #self.max_rate_move = 20
+        self.max_rate_move = 50
         self.min_interval_move = 1.0/self.max_rate_move
         self.time_last_pub_move = -1.0
         return None

@@ -33,6 +33,10 @@ joint_vel_7 = df.iloc[:,168]
 joint_pos_1_gt = df.iloc[:,1] # Unit: rad
 joint_pos_2_gt = df.iloc[:,2] # Unit: rad
 joint_pos_3_gt = df.iloc[:,3] # Unit: m
+# CONVERT ground truth joint position
+joint_pos_1_gt = np.rad2deg(joint_pos_1_gt) # Unit: deg
+joint_pos_2_gt = np.rad2deg(joint_pos_2_gt) # Unit: deg
+joint_pos_3_gt = np.rad2deg(joint_pos_3_gt) # Unit: m
 
 # Joint position (Columns N,O,P) 
 joint_pos_1 = df.iloc[:,13] # Unit: deg
@@ -51,29 +55,31 @@ print("Joint 2: " + str(joint_pos_2[0])+ " deg")
 print("Joint 3: " + str(joint_pos_3[0])+ " m")
 
 def cal_vel(joint_pos, time):
-    init_joint_pos = 0
-    init_t = 0
+    init_joint_pos = joint_pos[0]  # Set initial joint position to the first joint pos
+    init_t = time[0]  # Set initial time to the first timestamp
     velocity = []
-    for i in range(len(time)):
+    
+    for i in range(1, len(time)):
         cur_t = time[i]
-        if cur_t-init_t == 0:
-            print(i)
-            print("current time: "+str(cur_t))
-            print("initial time: "+str(init_t))
-        vel = (joint_pos[i]-init_joint_pos)/(cur_t-init_t)
-        # print("current time: "+str(cur_t))
-        # print("initial time: "+str(init_t))
+        if cur_t == init_t:
+            # Handle case where the timestamps are the same
+            vel = 0
+        else:
+            vel = (joint_pos[i] - init_joint_pos) / (cur_t - init_t)
         velocity.append(vel)
+        
         init_joint_pos = joint_pos[i]
-        init_t =time[i]
-        # print("vel: "+ str(velocity))
-        # print("init_joint: "+str(init_joint_pos)+ " | init_t: "+str(init_t))
+        init_t = time[i]
+        
     return velocity
 
 joint_vel_1 = cal_vel(joint_pos_1, t)
 joint_vel_2 = cal_vel(joint_pos_2, t)
 joint_vel_3 = cal_vel(joint_pos_3, t)
 
+joint_vel_1_gt = cal_vel(joint_pos_1_gt, t)
+joint_vel_2_gt = cal_vel(joint_pos_2_gt, t)
+joint_vel_3_gt = cal_vel(joint_pos_3_gt, t)
 
 # fig = plt.figure()
 # ax = fig.add_subplot(111,projection='3d')
@@ -89,5 +95,14 @@ cmds[:,1] = np.deg2rad(joint_vel_1) # rad
 cmds[:,2] = np.deg2rad(joint_vel_2) # rad
 cmds[:,3] = joint_vel_3 # m
 
-for cmd in cmds:
+cmds_gt = np.zeros((len(joint_vel_1_gt),16))
+cmds_gt[:,1] = np.deg2rad(joint_vel_1_gt) # rad
+cmds_gt[:,2] = np.deg2rad(joint_vel_2_gt) # rad
+cmds_gt[:,3] = joint_vel_3_gt # m
+
+for cmd in cmds_gt:
+# for cmd in cmds:
+    print(cmd)
     controller.pub_servo_jr_command(cmd) 
+
+print("done")
