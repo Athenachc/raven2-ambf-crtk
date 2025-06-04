@@ -49,11 +49,6 @@ joint_pos_3_plot = df.iloc[:,15].values
 t = df.iloc[:,0] # Recorded time
 
 # Calculate velocities of joints 1-3 (deg/s; deg/s; m/s)
-print("Time stamp 1: " + str(t[0])+ " s")
-print("Joint 1: " + str(joint_pos_1[0])+ " deg")
-print("Joint 2: " + str(joint_pos_2[0])+ " deg")
-print("Joint 3: " + str(joint_pos_3[0])+ " m")
-
 def cal_vel(joint_pos, time):
     init_joint_pos = joint_pos[0]  # Set initial joint position to the first joint pos
     init_t = time[0]  # Set initial time to the first timestamp
@@ -102,7 +97,9 @@ cmds_gt[:,3] = joint_vel_3_gt # m
 
 for cmd in cmds_gt:
 # for cmd in cmds:
-    print(cmd)
+    print("Joint 1 velocity (deg/s): "+str(cmd[1])
+          +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
+          +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
     controller.pub_servo_jr_command(cmd) 
 
 print("done")
