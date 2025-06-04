@@ -20,14 +20,10 @@ file_name = 'data_record_x_03.csv'
 
 df = pd.read_csv(file_location+'/'+file_name) # Load CSV file
 
-# Joint velocity
+# Joint velocity (Columns FG,FH,FI)
 joint_vel_1 = df.iloc[:,162]
 joint_vel_2 = df.iloc[:,163]
 joint_vel_3 = df.iloc[:,164]
-joint_vel_4 = df.iloc[:,165]
-joint_vel_5 = df.iloc[:,166]
-joint_vel_6 = df.iloc[:,167]
-joint_vel_7 = df.iloc[:,168]
 
 # Ground truth joint position (Columns B,C,D)
 joint_pos_1_gt = df.iloc[:,1] # Unit: rad
@@ -95,11 +91,11 @@ cmds_gt[:,1] = np.deg2rad(joint_vel_1_gt) # rad
 cmds_gt[:,2] = np.deg2rad(joint_vel_2_gt) # rad
 cmds_gt[:,3] = joint_vel_3_gt # m
 
-for cmd in cmds_gt:
+# # for cmd in cmds_gt:
 # for cmd in cmds:
-    print("Joint 1 velocity (deg/s): "+str(cmd[1])
-          +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
-          +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
-    controller.pub_servo_jr_command(cmd) 
+#     print("Joint 1 velocity (deg/s): "+str(cmd[1])
+#           +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
+#           +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
+#     controller.pub_servo_jr_command(cmd) 
 
 print("done")
