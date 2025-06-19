@@ -91,11 +91,11 @@ cmds_gt[:,1] = np.deg2rad(joint_vel_1_gt) # rad
 cmds_gt[:,2] = np.deg2rad(joint_vel_2_gt) # rad
 cmds_gt[:,3] = joint_vel_3_gt # m
 
-# # for cmd in cmds_gt:
-# for cmd in cmds:
-#     print("Joint 1 velocity (deg/s): "+str(cmd[1])
-#           +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
-#           +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
-#     controller.pub_servo_jr_command(cmd) 
+#for cmd in cmds_gt:
+for cmd in cmds:
+    print("Joint 1 velocity (deg/s): "+str(cmd[1])
+          +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
+          +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
+    controller.pub_servo_jr_command(cmd) 
 
 print("done")

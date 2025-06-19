@@ -1126,8 +1126,7 @@ JOINT wrist_L-grasper1_L:
     P: 0.03
     I: 0.0
     D: 3.0e-05
-  #controller output type: FORCE
-  controller output type: POSITION
+  controller output type: FORCE
   type: revolute
   max motor impulse: 0.05000000074505806
   damping: 0.7
