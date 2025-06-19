@@ -25,7 +25,7 @@ Open a terminal and run the following command:
 
 ```bash
 cd ~
-git clone https://github.com/lbyng/raven2-ambf-crtk.git
+git clone https://github.com/Athenachc/raven2-ambf-crtk.git
 ```
 
 ### **Step 4: Replace the RAVEN-II Model in AMBF**
