@@ -157,5 +157,5 @@ python3 ~/raven2-ambf-crtk/keyboard_controller.py
     At the beginning of this script, you can adjust the **velocity variables** for each joint.
 
 ### **📢 Contact**
-
+Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)
 For any questions or discussions, reach out via **GitHub Issues** or email the maintainers.
