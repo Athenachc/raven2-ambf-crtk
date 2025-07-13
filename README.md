@@ -1,6 +1,5 @@
 # **RAVEN-II AMBF CRTK Framework**  
 
-### **Source and credit**
 Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)
 
 A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) **RAVEN-II** surgical robot with **CRTK API** support to simulate real RAVEN-II behavior with **1000Hz control execution** and publishing the **RAVEN State** topic.
@@ -182,6 +181,7 @@ python3 ~/raven2-ambf-crtk/sim_test.py
 ### Change dataset file
 - Edit your desired dataset file location and filename in `sim_test.py`
 - For instance:
+  
             ```
             # Import data from dataset
             file_location = '/home/athena/Downloads/doi_10_5061_dryad_tqjq2bw84__v20241114/record_1_different_directions'
