@@ -178,3 +178,12 @@ python3 ~/raven2-ambf-crtk/keyboard_controller.py
 ```
 python3 ~/raven2-ambf-crtk/sim_test.py
 ```
+
+### Change dataset file
+- Edit your desired dataset file location and filename in `sim_test.py`
+- For instance:
+            ```
+            # Import data from dataset
+            file_location = '/home/athena/Downloads/doi_10_5061_dryad_tqjq2bw84__v20241114/record_1_different_directions'
+            file_name = 'data_record_x_03.csv'
+            ```
