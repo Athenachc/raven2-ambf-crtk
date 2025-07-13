@@ -1,6 +1,6 @@
 # **RAVEN-II AMBF CRTK Framework**  
 
-Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)
+Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)!
 
 A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) **RAVEN-II** surgical robot with **CRTK API** support to simulate real RAVEN-II behavior with **1000Hz control execution** and publishing the **RAVEN State** topic.
 
