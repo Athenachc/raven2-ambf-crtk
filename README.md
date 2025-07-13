@@ -1,5 +1,8 @@
 # **RAVEN-II AMBF CRTK Framework**  
 
+### **Source and credit**
+Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)
+
 A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) **RAVEN-II** surgical robot with **CRTK API** support to simulate real RAVEN-II behavior with **1000Hz control execution** and publishing the **RAVEN State** topic.
 
 > ⚠ **Note:** Currently, this framework only supports the **left arm** of RAVEN-II (**GOLD arm**).
@@ -27,7 +30,7 @@ source ~/raven2_ws/devel/setup.bash
 
 Ensure that you have the **[AMBF simulator](https://github.com/WPI-AIM/ambf)** installed and running on your system.
 
-### **Step 3: Clone the RAVEN-II AMBF CRTK Framework**  
+### **Step 3: Clone this RAVEN-II AMBF CRTK Framework**  
 
 Open a terminal and run the following command:  
 
@@ -50,12 +53,18 @@ Then copy the model files from the repository into that folder:
 cp -r ~/raven2-ambf-crtk/raven_models/* ~/ambf/ambf_models/meshes/blender_afmb/raven_2/
 ```
 
+Or simply clone:
+```
+https://github.com/Athenachc/ambf
+```
+I have replaced the RAVEN2 model in my AMBF repo.
+
 ### **Step 5: Run AMBF RAVEN-II**
 
 Launch the AMBF simulator with the updated RAVEN-II model by executing:
 
 ```bash
-~/ambf/bin/lin-x86_64/ambf_simulator -a "/home/sean/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml"
+~/ambf/bin/lin-x86_64/ambf_simulator -a "/home/athena/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml"
 ```
 
 If everything is set up correctly, you should see the **AMBF RAVEN-II** running.
@@ -69,9 +78,9 @@ To simplify launching the simulator, add an alias in your `.bashrc` file:
 nano ~/.bashrc  
 
 # Add the following alias at the end of the file:
-alias ambf-raven2="~/ambf/bin/lin-x86_64/ambf_simulator -a '/home/sean/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml'"
+alias ambf-raven2="~/ambf/bin/lin-x86_64/ambf_simulator -a '/home/athena/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml'"
 
-# Save and exit (Ctrl + X, then Y, then Enter)
+# Save and exit (Ctrl + O, then Enter, then Ctrl + x)
 ```
 
 Reload the `.bashrc` file to apply changes:
@@ -80,7 +89,11 @@ Reload the `.bashrc` file to apply changes:
 source ~/.bashrc
 ```
 
-Now, you can start **AMBF RAVEN-II** anytime by simply typing:
+Now, you can start **AMBF RAVEN-II** anytime by simply running:
+```bash
+roscore
+```
+And then open a new terminal and run: 
 
 ```bash
 ambf-raven2
@@ -93,6 +106,7 @@ Once AMBF is running, start the **RAVEN-II framework** by executing:
 ```bash
 python3 ~/raven2-ambf-crtk/main.py
 ```
+
 ## Solve "ImportError: dynamic module does not define module export function (PyInit__tf2)"
 ```
 sudo apt update
@@ -156,6 +170,11 @@ python3 ~/raven2-ambf-crtk/keyboard_controller.py
 
     At the beginning of this script, you can adjust the **velocity variables** for each joint.
 
-### **📢 Contact**
-Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)
-For any questions or discussions, reach out via **GitHub Issues** or email the maintainers.
+## **3. Run RAVEN2 dataset**
+### Download RAVEN2 dataset
+[Download here](https://datadryad.org/dataset/doi:10.5061/dryad.tqjq2bw84)
+
+### Run dataset
+```
+python3 ~/raven2-ambf-crtk/sim_test.py
+```
