@@ -15,7 +15,7 @@ rospy.init_node('raven_keyboard_controller', anonymous=True)
 controller = ambf_raven_controller.ambf_raven_controller()
 
 # Import data from dataset
-file_location = '/home/athena/Downloads/doi_10_5061_dryad_tqjq2bw84__v20241114/record_1_different_directions'
+file_location = '/root/raven2_dataset/record_1_different_directions'
 file_name = 'data_record_x_03.csv'
 
 df = pd.read_csv(file_location+'/'+file_name) # Load CSV file
@@ -64,13 +64,35 @@ def cal_vel(joint_pos, time):
         
     return velocity
 
+def sliding_mean(data, window_size):
+    n = len(data)
+    mean_list = []
+    
+    if n < window_size:
+        # If data is shorter than window size, return the mean of the whole data
+        mean_list.append(sum(data) / n)
+    else:
+        for i in range(n - window_size + 1):
+            window = data[i:i+window_size]
+            mean_list.append(sum(window) / window_size)
+    
+    return mean_list
+
+win_size = 5
+
 joint_vel_1 = cal_vel(joint_pos_1, t)
 joint_vel_2 = cal_vel(joint_pos_2, t)
 joint_vel_3 = cal_vel(joint_pos_3, t)
+joint_vel_1_mean = sliding_mean(joint_vel_1, win_size)
+joint_vel_2_mean = sliding_mean(joint_vel_2, win_size)
+joint_vel_3_mean = sliding_mean(joint_vel_3, win_size)
 
 joint_vel_1_gt = cal_vel(joint_pos_1_gt, t)
 joint_vel_2_gt = cal_vel(joint_pos_2_gt, t)
 joint_vel_3_gt = cal_vel(joint_pos_3_gt, t)
+joint_vel_1_gt_mean = sliding_mean(joint_vel_1_gt, win_size)
+joint_vel_2_gt_mean = sliding_mean(joint_vel_2_gt, win_size)
+joint_vel_3_gt_mean = sliding_mean(joint_vel_3_gt, win_size)
 
 # fig = plt.figure()
 # ax = fig.add_subplot(111,projection='3d')
@@ -81,21 +103,34 @@ joint_vel_3_gt = cal_vel(joint_pos_3_gt, t)
 # ax.set_zlabel('Joint Position 3')
 # plt.show()
 
+
+# cmds = np.zeros((len(joint_vel_1),16))
+# cmds[:,1] = np.deg2rad(joint_vel_1) # rad
+# cmds[:,2] = np.deg2rad(joint_vel_2) # rad
+# cmds[:,3] = joint_vel_3 # m
+
 cmds = np.zeros((len(joint_vel_1),16))
-cmds[:,1] = np.deg2rad(joint_vel_1) # rad
-cmds[:,2] = np.deg2rad(joint_vel_2) # rad
-cmds[:,3] = joint_vel_3 # m
+cmds[:,1] = np.deg2rad(joint_vel_1_mean) # rad
+cmds[:,2] = np.deg2rad(joint_vel_2_mean) # rad
+cmds[:,3] = joint_vel_3_mean # m
 
 cmds_gt = np.zeros((len(joint_vel_1_gt),16))
 cmds_gt[:,1] = np.deg2rad(joint_vel_1_gt) # rad
 cmds_gt[:,2] = np.deg2rad(joint_vel_2_gt) # rad
 cmds_gt[:,3] = joint_vel_3_gt # m
 
-#for cmd in cmds_gt:
+# #for cmd in cmds_gt:
+# for cmd in cmds:
+#     print("Joint 1 velocity (deg/s): "+str(cmd[1])
+#           +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
+#           +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
+#     controller.pub_servo_jr_command(cmd) 
+
 for cmd in cmds:
-    print("Joint 1 velocity (deg/s): "+str(cmd[1])
-          +"\nJoint 2 velocity (deg/s): "+str(cmd[2])
-          +"\nJoint 3 velocity (m/s): "+str(cmd[3]))
+    print("Window size: " win_size 
+          +"\nJoint 1 velocity mean (deg/s): "+str(cmd[1])
+          +"\nJoint 2 velocity mean (deg/s): "+str(cmd[2])
+          +"\nJoint 3 velocity mean (m/s): "+str(cmd[3]))
     controller.pub_servo_jr_command(cmd) 
 
 print("done")
