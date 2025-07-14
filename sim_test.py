@@ -109,7 +109,7 @@ joint_vel_3_gt_mean = sliding_mean(joint_vel_3_gt, win_size)
 # cmds[:,2] = np.deg2rad(joint_vel_2) # rad
 # cmds[:,3] = joint_vel_3 # m
 
-cmds = np.zeros((len(joint_vel_1),16))
+cmds = np.zeros((len(joint_vel_1_mean),16))
 cmds[:,1] = np.deg2rad(joint_vel_1_mean) # rad
 cmds[:,2] = np.deg2rad(joint_vel_2_mean) # rad
 cmds[:,3] = joint_vel_3_mean # m
@@ -127,7 +127,7 @@ cmds_gt[:,3] = joint_vel_3_gt # m
 #     controller.pub_servo_jr_command(cmd) 
 
 for cmd in cmds:
-    print("Window size: " win_size 
+    print("Window size: " + str(win_size) 
           +"\nJoint 1 velocity mean (deg/s): "+str(cmd[1])
           +"\nJoint 2 velocity mean (deg/s): "+str(cmd[2])
           +"\nJoint 3 velocity mean (m/s): "+str(cmd[3]))
