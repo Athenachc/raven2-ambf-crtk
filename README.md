@@ -18,7 +18,7 @@ A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) **R
 Ensure that you have the **[RAVEN-II Package](https://github.com/uw-biorobotics/raven2)** installed and running on your system.
 ```bash
 mkdir -p ~/raven2_ws/src
-cd raven2/src
+cd raven2_ws/src
 git clone https://github.com/uw-biorobotics/raven2.git
 cd ..
 catkin_make
