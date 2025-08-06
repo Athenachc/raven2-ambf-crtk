@@ -17,7 +17,7 @@ source ~/raven2_ws/devel/setup.bash
 ```
 ### **Step 2: Setup AMBF Simulator**  
 
-Ensure that you have the **[AMBF simulator (with updated RAVEN2 model](https://github.com/Athenachc/ambf)** installed and running on your system.
+Ensure that you have the **[AMBF simulator (with updated RAVEN2 model)](https://github.com/Athenachc/ambf)** installed and running on your system.
 
 ### **Step 3: Setup AMBF Matcap Plugin**  
 
@@ -42,7 +42,7 @@ If everything is set up correctly, you should see the **AMBF RAVEN-II (with/with
 
 ### **Step 5: Add an Alias for Convenience (Optional)**
 
-To simplify launching the simulator, add an alias in your `.bashrc` file:
+To simplify launching the simulator, add two alias in your `.bashrc` file:
 
 ```bash
 # Open ~/.bashrc in a text editor
@@ -69,7 +69,13 @@ roscore
 And then open a new terminal and run: 
 
 ```bash
-ambf-raven2
+ambf-raven2 # without AMBF matcap plugin
+```
+
+Or 
+
+```bash
+ambf-raven2-matcap # with AMBF matcap plugin
 ```
 
 ### **Step 7: Run the RAVEN-II AMBF CRTK Framework**
@@ -80,7 +86,7 @@ Once AMBF is running, open a new terminal and start the **RAVEN-II framework** b
 python3 ~/raven2-ambf-crtk/main.py
 ```
 
-At this point, the **AMBF RAVEN-II** should be homed as if it were a real **RAVEN-II** robot.
+At this point, the left arm (yellow one) of the **AMBF RAVEN-II** should be homed.
 
 ## **2. Keyboard Controller**
 
@@ -88,23 +94,7 @@ You can control the **RAVEN-II arm** using a keyboard. Follow these steps:
 
 ### **Start AMBF RAVEN-II and the Framework**
 
-First, ensure that AMBF is running:
-
-```bash
-ambf-raven2
-```
-
-Or 
-
-```bash
-ambf-raven2-matcap
-```
-
-Then, launch the **RAVEN-II AMBF CRTK Framework**:
-
-```bash
-python3 ~/raven2-ambf-crtk/main.py
-```
+Ensure that the RAVEN-II's left arm is homed by the above steps.
 
 ### **Run the Keyboard Controller**
 
@@ -139,7 +129,9 @@ file_name = 'data_record_x_03.csv'
 ```
 
 ### Run dataset
-Open a new terminal and run:
+Ensure that the RAVEN-II's left arm is homed by the above steps.
+
+Then, open a new terminal and run:
 ```
 python3 ~/raven2-ambf-crtk/sim_test.py
 ```
