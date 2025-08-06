@@ -1,15 +1,5 @@
 # **RAVEN-II AMBF CRTK Framework**  
-
-Big thanks and credit to [lbyng](https://github.com/lbyng) for his [repo](https://github.com/lbyng/raven2-ambf-crtk)!
-
-A framework for integrating the **AMBF** (Asynchronous Multi-Body Framework) **RAVEN-II** surgical robot with **CRTK API** support to simulate real RAVEN-II behavior with **1000Hz control execution** and publishing the **RAVEN State** topic.
-
-> ⚠ **Note:** Currently, this framework only supports the **left arm** of RAVEN-II (**GOLD arm**).
-
-## **Flowchart**  
-
-![Flow Chart](./fig/flow-chart.png)  
-
+Forked from: [lbyng/raven2-ambf-crtk](https://github.com/lbyng/raven2-ambf-crtk)
 
 ## **1. Installation & Setup**  
 
@@ -27,48 +17,30 @@ source ~/raven2_ws/devel/setup.bash
 ```
 ### **Step 2: Setup AMBF Simulator**  
 
-Ensure that you have the **[AMBF simulator](https://github.com/WPI-AIM/ambf)** installed and running on your system.
+Ensure that you have the **[AMBF simulator (with updated RAVEN2 model](https://github.com/Athenachc/ambf)** installed and running on your system.
 
-### **Step 3: Clone this RAVEN-II AMBF CRTK Framework**  
+### **Step 3: Setup AMBF Matcap Plugin**  
 
-Open a terminal and run the following command:  
+Ensure that you have the **[AMBF Matcap plugin (with RAVEN2 model)](https://github.com/Athenachc/ambf_matcap_plugin)** installed and running on your system.
 
-```bash
-cd ~
-git clone https://github.com/Athenachc/raven2-ambf-crtk.git
-```
 
-### **Step 4: Replace the RAVEN-II Model in AMBF**
+### **Step 4: Run AMBF RAVEN-II**
 
-To ensure the base-link of RAVEN-II is parallel to the ground, replace the RAVEN-II model in the AMBF with the model provided in this repository. For example, if your AMBF model path is:
+Launch the AMBF simulator with the updated RAVEN-II model (without matcap) by executing:
 
 ```bash
-~/ambf/ambf_models/meshes/blender_afmb/raven_2
+~/ambf/bin/lin-x86_64/ambf_simulator -a "~/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml"
 ```
 
-Then copy the model files from the repository into that folder:
+Launch the AMBF simulator with the updated RAVEN-II model (with matcap) by executing:
 
 ```bash
-cp -r ~/raven2-ambf-crtk/raven_models/* ~/ambf/ambf_models/meshes/blender_afmb/raven_2/
+~/ambf/bin/lin-x86_64/ambf_simulator -a "~/ambf_matcap_plugin/raven2/raven_straight_matcap.yaml"
 ```
 
-Or simply clone:
-```
-https://github.com/Athenachc/ambf
-```
-I have replaced the RAVEN2 model in my AMBF repo.
+If everything is set up correctly, you should see the **AMBF RAVEN-II (with/without matcap)** running.
 
-### **Step 5: Run AMBF RAVEN-II**
-
-Launch the AMBF simulator with the updated RAVEN-II model by executing:
-
-```bash
-~/ambf/bin/lin-x86_64/ambf_simulator -a "/home/athena/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml"
-```
-
-If everything is set up correctly, you should see the **AMBF RAVEN-II** running.
-
-### **Step 6: Add an Alias for Convenience (Optional)**
+### **Step 5: Add an Alias for Convenience (Optional)**
 
 To simplify launching the simulator, add an alias in your `.bashrc` file:
 
@@ -78,6 +50,8 @@ nano ~/.bashrc
 
 # Add the following alias at the end of the file:
 alias ambf-raven2="~/ambf/bin/lin-x86_64/ambf_simulator -a '/home/athena/ambf/ambf_models/meshes/blender_afmb/raven_2/raven_straight.yaml'"
+
+alias ambf-raven2-matcap="~/ambf/bin/lin-x86_64/ambf_simulator -a '/home/athena/ambf_matcap_plugin/raven2/raven_straight.yaml'"
 
 # Save and exit (Ctrl + O, then Enter, then Ctrl + x)
 ```
@@ -100,13 +74,13 @@ ambf-raven2
 
 ### **Step 7: Run the RAVEN-II AMBF CRTK Framework**
 
-Once AMBF is running, start the **RAVEN-II framework** by executing:
+Once AMBF is running, open a new terminal and start the **RAVEN-II framework** by executing:
 
 ```bash
 python3 ~/raven2-ambf-crtk/main.py
 ```
 
-At this point, the **AMBF RAVEN-II** should be running as if it were a real **RAVEN-II** robot.
+At this point, the **AMBF RAVEN-II** should be homed as if it were a real **RAVEN-II** robot.
 
 ## **2. Keyboard Controller**
 
@@ -118,6 +92,12 @@ First, ensure that AMBF is running:
 
 ```bash
 ambf-raven2
+```
+
+Or 
+
+```bash
+ambf-raven2-matcap
 ```
 
 Then, launch the **RAVEN-II AMBF CRTK Framework**:
@@ -149,11 +129,6 @@ python3 ~/raven2-ambf-crtk/keyboard_controller.py
 ### Download RAVEN2 dataset
 [Download here](https://datadryad.org/dataset/doi:10.5061/dryad.tqjq2bw84)
 
-### Run dataset
-```
-python3 ~/raven2-ambf-crtk/sim_test.py
-```
-
 ### Locate dataset file
 - Edit your desired dataset file location and filename in `sim_test.py`
 - For instance:
@@ -161,6 +136,12 @@ python3 ~/raven2-ambf-crtk/sim_test.py
 # Import data from dataset
 file_location = '/home/athena/Downloads/doi_10_5061_dryad_tqjq2bw84__v20241114/record_1_different_directions'
 file_name = 'data_record_x_03.csv'
+```
+
+### Run dataset
+Open a new terminal and run:
+```
+python3 ~/raven2-ambf-crtk/sim_test.py
 ```
 
 ## Troubleshooting
